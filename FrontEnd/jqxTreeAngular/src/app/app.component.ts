@@ -8,20 +8,33 @@ import { jqxTreeComponent } from 'jqwidgets-ng/jqxtree';
 export class AppComponent implements OnInit {
   versions: any;
   changes: any;
+  tree: any;
   constructor(private versionService: VersionService) {}
 
   ngOnInit(): void {
-    this.renderTable();
+    this.GetTreeData();
   }
 
-  renderTable(): void {
-    this.versions = this.versionService.GetVersions().subscribe({
-      next: (data: any) => (this.versions = { ...data }), // success path
-    });
+  GetTreeData(): void {
+    this.versions = this.versionService.GetVersions();
+    this.changes = this.versionService.GetChanges();
 
-    this.changes = this.versionService.GetChanges().subscribe({
-      next: (data: any) => (this.changes = { ...data }), // success path
+    this.versions.forEach(version => {
+      tree += {
+        id: version.ID,
+        parentid: '-1',
+        text: version.VERSAO,
+        value: ''
+      }
+
     });
+    table: any[] = [
+
+    ]
+  }
+
+  RenderTree(){
+
   }
 
   data: any[] = [
