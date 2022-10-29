@@ -17,7 +17,7 @@ export class VersionService {
     },
     {
       ID: '1011',
-      ID_CONTROLE_VERSAO: '1003',
+      ID_CONTROLE_VERSAO: '1002',
       SEQUENCIAL: '8',
       DESCRICAO: 'Mudado',
     },
