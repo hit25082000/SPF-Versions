@@ -1,3 +1,6 @@
+import { Change } from './components/models/change.model';
+import { Version } from './components/models/version.model';
+import { Observable } from 'rxjs';
 import { VersionService } from './components/version.service';
 import { Component, OnInit } from '@angular/core';
 import { jqxTreeComponent } from 'jqwidgets-ng/jqxtree';
@@ -6,9 +9,9 @@ import { jqxTreeComponent } from 'jqwidgets-ng/jqxtree';
   templateUrl: './app.component.html',
 })
 export class AppComponent implements OnInit {
-  versions: any;
-  changes: any;
-  data: Array<any> = []
+  versions: Version[] = [];
+  changes: Change[] = [];
+  data: Array<any> = [];
   dataAdapter: any;
   source: any;
   records: any;
@@ -18,33 +21,40 @@ export class AppComponent implements OnInit {
 
   ngOnInit(): void {
     this.GetTreeData();
-    this.RenderTree();
   }
 
-  GetTreeData(): void {
-    this.versions = this.versionService.GetVersions();
-    this.changes = this.versionService.GetChanges();
+  GetTreeData() {
+    this.versionService.GetVersions().subscribe((version) => {
+      this.versions = version;
+      console.log(this.versions);
+
+      this.versionService.GetChanges().subscribe((changes) => {
+        this.changes = changes;
+        console.log(this.changes);
+
+        this.RenderTree();
+      });
+    });
   }
 
-  RenderTree(){
-    this.i=1
-    this.versions.forEach((version: { ID: any; VERSAO: any; }) => {
+  RenderTree() {
+    this.i = 1;
+    this.versions.forEach((version) => {
       this.data.push({
         id: (this.i++).toString(),
         parentid: '-1',
         text: version.VERSAO,
-        value: ''
-      },)
-      this.j = this.i
-      this.changes.forEach((change: { ID_CONTROLE_VERSAO: any; ID: any; DESCRICAO: any; SEQUENCIAL: any; })  => {
-        if(change.ID_CONTROLE_VERSAO == version.ID)
-        {
-          this.data.push( {
+        value: '',
+      });
+      this.j = this.i;
+      this.changes.forEach((change) => {
+        if (change.ID_CONTROLE_VERSAO == version.ID) {
+          this.data.push({
             id: (this.i++).toString(),
-            parentid: (this.j -1).toString(),
+            parentid: (this.j - 1).toString(),
             text: change.DESCRICAO,
-            value: ""
-        },)
+            value: change.SEQUENCIAL,
+          });
         }
       });
     });
@@ -71,110 +81,5 @@ export class AppComponent implements OnInit {
       'items',
       [{ name: 'text', map: 'label' }]
     );
-
-    console.log(this.data)
   }
-  tree: any[] = [
-    {
-      text: 'Chocolate Beverage',
-      id: '1',
-      parentid: '-1',
-      value: '$2.3',
-    },
-    {
-      id: '2',
-      parentid: '1',
-      text: 'Hot Chocolate',
-      value: '$2.3',
-    },
-    {
-      id: '3',
-      parentid: '1',
-      text: 'Peppermint Hot Chocolate',
-      value: '$2.3',
-    },
-    {
-      id: '4',
-      parentid: '1',
-      text: 'Salted Caramel Hot Chocolate',
-      value: '$2.3',
-    },
-    {
-      id: '5',
-      parentid: '1',
-      text: 'White Hot Chocolate',
-      value: '$2.3',
-    },
-    {
-      id: '6',
-      text: 'Espresso Beverage',
-      parentid: '-1',
-      value: '$2.3',
-    },
-    {
-      id: '7',
-      parentid: '6',
-      text: 'Caffe Americano',
-      value: '$2.3',
-    },
-    {
-      id: '8',
-      text: 'Caffe Latte',
-      parentid: '6',
-      value: '$2.3',
-    },
-    {
-      id: '9',
-      text: 'Caffe Mocha',
-      parentid: '6',
-      value: '$2.3',
-    },
-    {
-      id: '10',
-      text: 'Cappuccino',
-      parentid: '6',
-      value: '$2.3',
-    },
-    {
-      id: '11',
-      text: 'Pumpkin Spice Latte',
-      parentid: '6',
-      value: '$2.3',
-    },
-    {
-      id: '12',
-      text: 'Frappuccino',
-      parentid: '-1',
-    },
-    {
-      id: '13',
-      text: 'Caffe Vanilla Frappuccino',
-      parentid: '12',
-      value: '$2.3',
-    },
-    {
-      id: '15',
-      text: '450 calories',
-      parentid: '13',
-      value: '$2.3',
-    },
-    {
-      id: '16',
-      text: '16g fat',
-      parentid: '13',
-      value: '$2.3',
-    },
-    {
-      id: '17',
-      text: '13g protein',
-      parentid: '13',
-      value: '$2.3',
-    },
-    {
-      id: '14',
-      text: 'Caffe Vanilla Frappuccino Light',
-      parentid: '12',
-      value: '$2.3',
-    },
-  ];
 }
