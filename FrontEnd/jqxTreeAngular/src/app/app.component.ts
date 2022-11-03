@@ -9,7 +9,6 @@ import { jqxTreeComponent } from 'jqwidgets-ng/jqxtree';
   templateUrl: './app.component.html',
 })
 export class AppComponent implements OnInit {
-  @ViewChild('myTree') myTree: jqxTreeComponent;
   versions: Version[] = [];
   changes: Change[] = [];
   data: Array<any> = [];
@@ -82,11 +81,5 @@ export class AppComponent implements OnInit {
       'items',
       [{ name: 'text', map: 'label' }]
     );
-  }
-  colapse():void{
-    this.myTree.width(150);
-  }
-  expand():void{
-    this.myTree.width(500);
   }
 }
