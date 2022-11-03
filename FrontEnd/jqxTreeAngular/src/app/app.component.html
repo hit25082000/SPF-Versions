@@ -1,2 +1,2 @@
-<jqxTree [allowDrag]="false" #myTree [source]="records"
-style="border: none;"></jqxTree>
+<div class="tree"><jqxTree [allowDrag]="false" #myTree (onCollapse)="colapse()" (onExpand)="expand()" [source]="records"
+style="border: none;"></jqxTree></div>
