@@ -52,8 +52,8 @@ export class AppComponent implements OnInit {
           this.data.push({
             id: (this.i++).toString(),
             parentid: (this.j - 1).toString(),
-            text: change.DESCRICAO,
-            value: change.SEQUENCIAL,
+            text: change.SEQUENCIAL + " - " + change.DESCRICAO,
+            value: '',
           });
         }
       });

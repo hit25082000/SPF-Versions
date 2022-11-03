@@ -3,7 +3,7 @@ header('Access-Control-Allow-Origin: *');
 $servername = "localhost";
 $username = "root";
 $password = "";
-$dbname = "test";
+$dbname = "spf_versao";
 
 $conn = mysqli_connect($servername, $username, $password, $dbname) or die("Connection failed: " . mysqli_connect_error());
 /* check connection */
