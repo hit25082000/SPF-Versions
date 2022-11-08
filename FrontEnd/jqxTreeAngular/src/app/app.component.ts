@@ -1,20 +1,23 @@
+import { HttpClient } from '@angular/common/http';
 import { Change } from './components/models/change.model';
 import { Version } from './components/models/version.model';
-import { Observable } from 'rxjs';
+import { Observable, timeInterval } from 'rxjs';
 import { VersionService } from './components/version.service';
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { jqxTreeComponent } from 'jqwidgets-ng/jqxtree';
+import { jqxTreeComponent, jqxTreeModule } from 'jqwidgets-ng/jqxtree';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
 })
 export class AppComponent implements OnInit {
+  @ViewChild('myTree') myTree: jqxTreeComponent;
   versions: Version[] = [];
   changes: Change[] = [];
   data: Array<any> = [];
   dataAdapter: any;
   source: any;
   records: any;
+  width: any;
   i: any;
   j: any;
   constructor(private versionService: VersionService) {}
@@ -52,7 +55,7 @@ export class AppComponent implements OnInit {
           this.data.push({
             id: (this.i++).toString(),
             parentid: (this.j - 1).toString(),
-            text: change.SEQUENCIAL + " - " + change.DESCRICAO,
+            text: change.SEQUENCIAL + ' - ' + this.lineBreak(change.DESCRICAO),
             value: '',
           });
         }
@@ -81,5 +84,20 @@ export class AppComponent implements OnInit {
       'items',
       [{ name: 'text', map: 'label' }]
     );
+  }
+  lineBreak(descricao: string): string {
+    if (descricao.length > 100) {
+      var novaDescricao =
+        descricao.substring(0, 100) +
+        '<br>&nbsp;&nbsp;&nbsp;&nbsp; '+
+        descricao.substring(100);
+        if(novaDescricao.length >200) {
+          novaDescricao.substring(100, 200) +
+          '<br>&nbsp;&nbsp;&nbsp;&nbsp; '+
+          novaDescricao.substring(200);
+        }
+      return novaDescricao;
+    }
+    return descricao;
   }
 }
