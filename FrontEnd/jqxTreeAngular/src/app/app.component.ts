@@ -89,11 +89,11 @@ export class AppComponent implements OnInit {
     if (descricao.length > 100) {
       var novaDescricao =
         descricao.substring(0, 100) +
-        '<br>&nbsp;&nbsp;&nbsp;&nbsp; '+
+        '<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'+
         descricao.substring(100);
         if(novaDescricao.length >200) {
           novaDescricao.substring(100, 200) +
-          '<br>&nbsp;&nbsp;&nbsp;&nbsp; '+
+          '<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'+
           novaDescricao.substring(200);
         }
       return novaDescricao;
